@@ -39,7 +39,7 @@ def validate(params):
 @app.route("/", methods=['GET', 'POST'])
 def main():
     if request.method == "GET":
-         log.debug('GET is being processed!')
+        log.debug('GET is being processed!')
         return redirect("https://github.com/cheriang/email-to-slack")
     elif request.method == "POST":
         print("New Email recieved\n Parameters")
