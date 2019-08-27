@@ -41,7 +41,7 @@ def main():
         return redirect("https://github.com/cheriang/email-to-slack")
     elif request.method == "POST":
         print("New Email recieved\n Parameters")
-		sys.stdout.flush()
+        sys.stdout.flush()
         params = request.get_json(force=True)
         print(json.dumps(params))
         print("\n\n\n\nHEADERS\n\n\n\n")
@@ -56,7 +56,7 @@ def main():
             }
 			print("Challenge verification")
 			print(json.dumps(data))
-			sys.stdout.flush()
+            sys.stdout.flush()
 			
             resp = Response(
                 response=json.dumps(data),
@@ -130,7 +130,7 @@ def main():
             # Slack API sends two payloads for single event. This is a bug
             # involving Heroku and Slack API.
             os.environ[f"CHECKED_{email['id']}"] = ''
-
+            sys.stdout.flush()
             return Response(
                 response="ok",
                 status=200
