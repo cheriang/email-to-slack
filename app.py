@@ -2,6 +2,7 @@
 import os
 import json
 import requests
+import sys
 
 from flask import Flask, render_template, redirect, request, Response
 
@@ -37,21 +38,26 @@ def validate(params):
 @app.route("/", methods=['GET', 'POST'])
 def main():
     if request.method == "GET":
-        return redirect("https://github.com/kossiitkgp/email-to-slack")
+        return redirect("https://github.com/cheriang/email-to-slack")
     elif request.method == "POST":
-
         print("New Email recieved\n Parameters")
+		sys.stdout.flush()
         params = request.get_json(force=True)
         print(json.dumps(params))
         print("\n\n\n\nHEADERS\n\n\n\n")
         print(request.headers)
-        """
+        sys.stdout.flush()
+		"""
         Enable this to verify the URL while installing the app
         """
         if 'challenge' in params:
             data = {
                 'challenge': params.get('challenge'),
             }
+			print("Challenge verification")
+			print(json.dumps(data))
+			sys.stdout.flush()
+			
             resp = Response(
                 response=json.dumps(data),
                 status=200,
@@ -67,7 +73,7 @@ def main():
                 # This email has already been processed
                 return Response(response="Duplicate", status=409)
 
-            email_provider = "http://gmail.com/"
+            email_provider = "https://mail.onenterprises.com"
 
             sender_email = email["from"][0]["original"]
             email_subject = email["title"]
