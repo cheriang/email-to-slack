@@ -47,17 +47,17 @@ def main():
         print("\n\n\n\nHEADERS\n\n\n\n")
         print(request.headers)
         sys.stdout.flush()
-		"""
+        """
         Enable this to verify the URL while installing the app
         """
         if 'challenge' in params:
             data = {
                 'challenge': params.get('challenge'),
             }
-			print("Challenge verification")
-			print(json.dumps(data))
+            print("Challenge verification")
+            print(json.dumps(data))
             sys.stdout.flush()
-			
+
             resp = Response(
                 response=json.dumps(data),
                 status=200,
