@@ -2,11 +2,12 @@
 import os
 import json
 import requests
-import sys
+import logging
 
 from flask import Flask, render_template, redirect, request, Response
 
 app = Flask(__name__)
+log = logging.getLogger(__name__)
 
 
 def validate(params):
@@ -38,15 +39,14 @@ def validate(params):
 @app.route("/", methods=['GET', 'POST'])
 def main():
     if request.method == "GET":
+         log.debug('GET is being processed!')
         return redirect("https://github.com/cheriang/email-to-slack")
     elif request.method == "POST":
         print("New Email recieved\n Parameters")
-        sys.stdout.flush()
         params = request.get_json(force=True)
         print(json.dumps(params))
         print("\n\n\n\nHEADERS\n\n\n\n")
         print(request.headers)
-        sys.stdout.flush()
         """
         Enable this to verify the URL while installing the app
         """
@@ -56,7 +56,6 @@ def main():
             }
             print("Challenge verification")
             print(json.dumps(data))
-            sys.stdout.flush()
 
             resp = Response(
                 response=json.dumps(data),
@@ -130,7 +129,6 @@ def main():
             # Slack API sends two payloads for single event. This is a bug
             # involving Heroku and Slack API.
             os.environ[f"CHECKED_{email['id']}"] = ''
-            sys.stdout.flush()
             return Response(
                 response="ok",
                 status=200
