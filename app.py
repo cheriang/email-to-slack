@@ -46,7 +46,7 @@ def main():
         
         print("\n\n\n\nOTHERS\n\n\n\n")
         print("Sending the following data to ",  os.environ["INCOMING_WEBHOOK_URL"] )
-        print(json.dumps(data))
+
 
         print("\n\n\n\nHEADERS\n\n\n\n")
         print(request.headers)
