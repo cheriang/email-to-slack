@@ -2,12 +2,10 @@
 import os
 import json
 import requests
-import logging
 
 from flask import Flask, render_template, redirect, request, Response
 
 app = Flask(__name__)
-log = logging.getLogger(__name__)
 
 
 def validate(params):
@@ -39,12 +37,17 @@ def validate(params):
 @app.route("/", methods=['GET', 'POST'])
 def main():
     if request.method == "GET":
-        log.debug('GET is being processed!')
-        return redirect("https://github.com/cheriang/email-to-slack")
+        return redirect("https://github.com/kossiitkgp/email-to-slack")
     elif request.method == "POST":
+
         print("New Email recieved\n Parameters")
         params = request.get_json(force=True)
         print(json.dumps(params))
+        
+        print("\n\n\n\nOTHERS\n\n\n\n")
+        print("Sending the following data to ",  os.environ["INCOMING_WEBHOOK_URL"] )
+        print(json.dumps(data))
+
         print("\n\n\n\nHEADERS\n\n\n\n")
         print(request.headers)
         """
@@ -54,9 +57,6 @@ def main():
             data = {
                 'challenge': params.get('challenge'),
             }
-            print("Challenge verification")
-            print(json.dumps(data))
-
             resp = Response(
                 response=json.dumps(data),
                 status=200,
@@ -72,7 +72,7 @@ def main():
                 # This email has already been processed
                 return Response(response="Duplicate", status=409)
 
-            email_provider = "https://mail.onenterprises.com"
+            email_provider = "http://gmail.com/"
 
             sender_email = email["from"][0]["original"]
             email_subject = email["title"]
@@ -129,6 +129,7 @@ def main():
             # Slack API sends two payloads for single event. This is a bug
             # involving Heroku and Slack API.
             os.environ[f"CHECKED_{email['id']}"] = ''
+
             return Response(
                 response="ok",
                 status=200
